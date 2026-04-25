@@ -1,8 +1,9 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
-  import { calculateSubnet } from '$lib/functions/subnetCalculator';
+  import { calculateSubnet, getParentNetwork, getSubnetAtIndex, getMemberAtIndex } from '$lib/functions/subnetCalculator';
   import Card from '$lib/components/Card.svelte';
   import BinaryBlock from '$lib/components/BinaryBlock.svelte';
+  import PaginatedList from '$lib/components/PaginatedList.svelte';
 
   let ipInput = $state('10.0.0.1');
   let prefixInput = $state('8');
@@ -39,43 +40,14 @@
     }
   });
 
-  let membersList = $derived.by(() => {
-    if (!validSubnetResult) return [];
-    if (validSubnetResult.totalAddresses > 1024) return []; 
-    
-    const list = [];
-    const ipToNum = (ipStr: string) => {
-      const p = ipStr.split('.').map(Number);
-      return ((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3]) >>> 0;
-    };
-    
-    const startNum = ipToNum(validSubnetResult.networkAddress);
-    const endNum = ipToNum(validSubnetResult.broadcastAddress);
-    
-    const numToIp = (num: number) => {
-        return [
-            (num >>> 24) & 255,
-            (num >>> 16) & 255,
-            (num >>> 8) & 255,
-            num & 255
-        ].join('.');
-    };
-    
-    if (endNum - startNum <= 8) {
-      for(let i = startNum; i <= endNum; i++) {
-        list.push(numToIp(i));
-      }
-    } else {
-      list.push(numToIp(startNum));
-      list.push(numToIp(startNum + 1));
-      list.push(numToIp(startNum + 2));
-      list.push('...');
-      list.push(numToIp(endNum - 2));
-      list.push(numToIp(endNum - 1));
-      list.push(numToIp(endNum));
-    }
-    
-    return list;
+  let parentNetworkResult = $derived.by(() => {
+    if (!validSubnetResult) return null;
+    return getParentNetwork(validSubnetResult.ip, validSubnetResult.prefix);
+  });
+  
+  let possibleSubnetsTotal = $derived.by(() => {
+    if (!validSubnetResult || !parentNetworkResult) return 0;
+    return Math.pow(2, validSubnetResult.prefix - parentNetworkResult.prefix);
   });
 </script>
 
@@ -194,6 +166,62 @@
       />
     </div>
 
+    {#if parentNetworkResult && possibleSubnetsTotal > 0}
+    <div class="members-section">
+      <div class="members-title">{$t('possible.title', { prefix: validSubnetResult.prefix })}</div>
+      <div class="members-desc">
+        {$t('possible.desc', { 
+           network: parentNetworkResult.network,
+           parentPrefix: parentNetworkResult.prefix.toString(),
+           count: possibleSubnetsTotal.toLocaleString()
+        })}
+      </div>
+      
+      <PaginatedList totalItems={possibleSubnetsTotal} itemsPerPage={500}>
+        {#snippet children({ startIndex, endIndex })}
+           <div class="members-list">
+             {#each Array(endIndex - startIndex) as _, i}
+                {@const subnetIndex = startIndex + i}
+                {@const subnetStr = getSubnetAtIndex(parentNetworkResult.network, validSubnetResult.prefix, subnetIndex)}
+                {@const isActive = subnetStr === `${validSubnetResult.networkAddress}/${validSubnetResult.prefix}`}
+                <div class="member-chip text-mono" class:member-network={isActive}>
+                  {subnetStr}
+                </div>
+             {/each}
+           </div>
+        {/snippet}
+      </PaginatedList>
+    </div>
+    {/if}
+
+    {#if parentNetworkResult && possibleSubnetsTotal > 0}
+    <div class="members-section">
+      <div class="members-title">{$t('possible.title', { prefix: validSubnetResult.prefix.toString() })}</div>
+      <div class="members-desc">
+        {$t('possible.desc', { 
+           network: parentNetworkResult.network,
+           parentPrefix: parentNetworkResult.prefix.toString(),
+           count: possibleSubnetsTotal.toLocaleString()
+        })}
+      </div>
+      
+      <PaginatedList totalItems={possibleSubnetsTotal} itemsPerPage={500}>
+        {#snippet children({ startIndex, endIndex })}
+           <div class="members-list">
+             {#each Array(endIndex - startIndex) as _, i}
+                {@const subnetIndex = startIndex + i}
+                {@const subnetStr = getSubnetAtIndex(parentNetworkResult.network, validSubnetResult.prefix, subnetIndex)}
+                {@const isActive = subnetStr === `${validSubnetResult.networkAddress}/${validSubnetResult.prefix}`}
+                <div class="member-chip text-mono" class:member-network={isActive}>
+                  {subnetStr}
+                </div>
+             {/each}
+           </div>
+        {/snippet}
+      </PaginatedList>
+    </div>
+    {/if}
+
     <div class="members-section">
       <div class="members-title">{$t('members.title')}</div>
       <div class="members-desc">
@@ -202,22 +230,24 @@
            start: validSubnetResult.networkAddress, 
            end: validSubnetResult.broadcastAddress 
         })}
-        {#if validSubnetResult.totalAddresses > 1024}
-          — <span class="muted">{$t('members.too_many')}</span>
-        {/if}
       </div>
       
-      <div class="members-list">
-        {#each membersList as member}
-           <div class="member-chip text-mono" 
-             class:dots={member === '...'}
-             class:member-network={member === validSubnetResult.networkAddress}
-             class:member-broadcast={member === validSubnetResult.broadcastAddress}
-           >
-             {member}
+      <PaginatedList totalItems={validSubnetResult.totalAddresses} itemsPerPage={1000}>
+        {#snippet children({ startIndex, endIndex })}
+           <div class="members-list">
+             {#each Array(endIndex - startIndex) as _, i}
+                {@const memberIndex = startIndex + i}
+                {@const memberIp = getMemberAtIndex(validSubnetResult.networkAddress, memberIndex)}
+                <div class="member-chip text-mono" 
+                  class:member-network={memberIp === validSubnetResult.networkAddress}
+                  class:member-broadcast={memberIp === validSubnetResult.broadcastAddress}
+                >
+                  {memberIp}
+                </div>
+             {/each}
            </div>
-        {/each}
-      </div>
+        {/snippet}
+      </PaginatedList>
     </div>
   {/if}
 </div>

@@ -27,6 +27,7 @@
     "card.desc.in_network": "in {{network}}",
     "members.title": "Subnet Members",
     "members.desc": "This subnet has {{count}} addresses. Range: {{start}} → {{end}}",
-    "members.too_many": "Too many to list individually",
+    "possible.title": "All Possible /{{prefix}} Subnets",
+    "possible.desc": "Parent network {{network}}/{{parentPrefix}} yields {{count}} subnets",
     "error.invalid_input": "Invalid IP or prefix"
 }

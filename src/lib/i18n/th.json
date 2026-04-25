@@ -27,6 +27,7 @@
     "card.desc.in_network": "ในเครือข่าย {{network}}",
     "members.title": "สมาชิกในซับเน็ต",
     "members.desc": "ซับเน็ตนี้มีทั้งหมด {{count}} แอดเดรส ช่วงไอพี: {{start}} → {{end}}",
-    "members.too_many": "จำนวนแอดเดรสเยอะเกินกว่าที่จะนำมาแสดงทั้งหมด",
+    "possible.title": "เครือข่ายที่เป็นไปได้ทั้งหมด (/{{prefix}} Subnets)",
+    "possible.desc": "ต้นทางจากวง {{network}}/{{parentPrefix}} แบ่งได้ทั้งหมด {{count}} วง",
     "error.invalid_input": "ไอพีหรือพรีฟิกซ์ไม่ถูกต้อง"
 }
