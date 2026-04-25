@@ -1,0 +1,124 @@
+/* src/app.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Colors - Light Theme */
+  --bg-body: #edf7f1;
+  --bg-card: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --primary-color: #3b82f6; /* Blue */
+  --primary-hover: #2563eb;
+  
+  --network-btn: #3b82f6;
+  --network-btn-hover: #2563eb;
+  --network-bg: #eff6ff;
+  --network-border: #bfdbfe;
+  
+  --network-bit-bg: #dbeafe; /* Blueish for network bit */
+  --network-bit-border: #3b82f6; /* Blueish */
+  --host-bit-bg: #ffedd5; /* Orangish for host bit */
+  --host-bit-border: #f97316; /* Orangish */
+
+  --card-border: #cbd5e1;
+  
+  --error-color: #ef4444;
+
+  /* Binary Bits Colors */
+  --bit-zero-color: rgba(0, 0, 0, 0.3);
+  --bit-one-color: inherit;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Layout & Utility */
+  --border-radius: 8px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+:root[data-theme="dark"] {
+  /* Colors - Dark Theme */
+  --bg-body: #0f172a;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary-color: #60a5fa;
+  --primary-hover: #3b82f6;
+  
+  --network-btn: #3b82f6;
+  --network-btn-hover: #60a5fa;
+  --network-bg: #1e3a8a;
+  --network-border: #3b82f6;
+  
+  --network-bit-bg: #1e3a8a; 
+  --network-bit-border: #60a5fa; 
+  --host-bit-bg: #7c2d12; 
+  --host-bit-border: #fb923c; 
+
+  --card-border: #334155;
+
+  /* Binary Bits Colors */
+  --bit-zero-color: rgba(255, 255, 255, 0.3);
+  --bit-one-color: inherit;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+/* Responsive Grid layout for cards */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .grid-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 768px) {
+  .grid-cards { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1024px) {
+  .grid-cards { grid-template-columns: repeat(4, 1fr); }
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
