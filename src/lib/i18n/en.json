@@ -29,5 +29,17 @@
     "members.desc": "This subnet has {{count}} addresses. Range: {{start}} → {{end}}",
     "possible.title": "All Possible /{{prefix}} Subnets",
     "possible.desc": "Parent network {{network}}/{{parentPrefix}} yields {{count}} subnets",
-    "error.invalid_input": "Invalid IP or prefix"
+    "error.invalid_input": "Invalid IP or prefix",
+    "divide.title": "Subnet Divider",
+    "divide.desc": "Divide {{network}}/{{prefix}} into smaller subnets — the bar below is 100% of its address space",
+    "divide.target_label": "Divide into",
+    "divide.option": "/{{prefix}} — {{count}} subnets",
+    "divide.cap_hint": "Up to 256 subnets shown per level",
+    "divide.click_hint": "Click a segment to zoom in",
+    "divide.hover_prompt": "Hover a segment to see its details",
+    "divide.nothing_to_divide": "A /{{prefix}} cannot be divided further",
+    "divide.panel.network": "Network",
+    "divide.panel.broadcast": "Broadcast",
+    "divide.panel.range": "Host range",
+    "divide.panel.hosts": "Usable hosts"
 }

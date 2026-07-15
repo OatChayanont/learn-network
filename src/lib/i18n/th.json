@@ -29,5 +29,17 @@
     "members.desc": "ซับเน็ตนี้มีทั้งหมด {{count}} แอดเดรส ช่วงไอพี: {{start}} → {{end}}",
     "possible.title": "เครือข่ายที่เป็นไปได้ทั้งหมด (/{{prefix}} Subnets)",
     "possible.desc": "ต้นทางจากวง {{network}}/{{parentPrefix}} แบ่งได้ทั้งหมด {{count}} วง",
-    "error.invalid_input": "ไอพีหรือพรีฟิกซ์ไม่ถูกต้อง"
+    "error.invalid_input": "ไอพีหรือพรีฟิกซ์ไม่ถูกต้อง",
+    "divide.title": "แบ่งซับเน็ต (Subnet Divider)",
+    "divide.desc": "แบ่ง {{network}}/{{prefix}} ออกเป็นซับเน็ตย่อย — แถบด้านล่างคือพื้นที่แอดเดรสทั้งหมด (100%)",
+    "divide.target_label": "แบ่งเป็น",
+    "divide.option": "/{{prefix}} — {{count}} ซับเน็ต",
+    "divide.cap_hint": "แสดงสูงสุด 256 ซับเน็ตต่อชั้น",
+    "divide.click_hint": "คลิกที่ช่องเพื่อเจาะลึกลงไป",
+    "divide.hover_prompt": "ชี้เมาส์ที่ช่องเพื่อดูรายละเอียด",
+    "divide.nothing_to_divide": "/{{prefix}} ไม่สามารถแบ่งย่อยได้อีก",
+    "divide.panel.network": "เครือข่าย",
+    "divide.panel.broadcast": "บรอดคาสต์",
+    "divide.panel.range": "ช่วงโฮสต์",
+    "divide.panel.hosts": "โฮสต์ที่ใช้ได้"
 }

@@ -4,6 +4,7 @@
   import Card from '$lib/components/Card.svelte';
   import BinaryBlock from '$lib/components/BinaryBlock.svelte';
   import PaginatedList from '$lib/components/PaginatedList.svelte';
+  import SubnetDivideBar from '$lib/components/SubnetDivideBar.svelte';
 
   let ipInput = $state('10.0.0.1');
   let prefixInput = $state('8');
@@ -249,6 +250,11 @@
         {/snippet}
       </PaginatedList>
     </div>
+
+    <SubnetDivideBar
+      baseNetwork={validSubnetResult.networkAddress}
+      basePrefix={validSubnetResult.prefix}
+    />
   {/if}
 </div>
 
